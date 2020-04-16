@@ -18,13 +18,13 @@ namespace Common.RabbitMq
     /// </summary>
     public static class ExtensionMethods
     {
-        public static Task WithCommandHandler<TCommand>(this IBusClient busClient,
+        public static Task WithCommandHandlerAsync<TCommand>(this IBusClient busClient,
             ICommandHandler<TCommand> commandHandler) where TCommand : ICommand
-        => busClient.SubscribeAsync<TCommand>( msg => commandHandler.HandleAsync(msg),
+        => busClient.SubscribeAsync<TCommand>(async msg => await commandHandler.HandleAsync(msg),
                 ctx => ctx.UseSubscribeConfiguration(cfg => cfg.FromDeclaredQueue(q => q.WithName(GetQueueName<TCommand>()))));
-        public static Task WithEventHandler<TEvent>(this IBusClient busClient,
+        public static Task WithEventHandlerAsync<TEvent>(this IBusClient busClient,
             IEventHandler<TEvent> commandHandler) where TEvent : IEvent
-        => busClient.SubscribeAsync<TEvent>( msg => commandHandler.HandleAsync(msg),
+        => busClient.SubscribeAsync<TEvent>(async msg => await commandHandler.HandleAsync(msg),
                 ctx => ctx.UseSubscribeConfiguration(cfg => cfg.FromDeclaredQueue(q => q.WithName(GetQueueName<TEvent>()))));
         private static string GetQueueName<T>()
             => $"{Assembly.GetEntryAssembly().GetName()}/{typeof(T).Name}";

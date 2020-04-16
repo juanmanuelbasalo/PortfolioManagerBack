@@ -15,9 +15,9 @@ namespace Identity
     {
         public static async Task Main(string[] args)
         {
-            await ServiceHost.CreateHostBuilder<Startup>(args)
+            await (await ServiceHost.CreateHostBuilder<Startup>(args)
                 .UseRabbitMq()
-                .SubscribeToCommand<CreateUser>()
+                .SubscribeToCommandAsync<CreateUser>())
                 .Build()
                 .Run();         
         }

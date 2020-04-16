@@ -77,18 +77,18 @@ namespace Common.Services
                 this.host = host;
             }
 
-            public BusBuilder SubscribeToCommand<TCommand>() where TCommand : ICommand
+            public async Task<BusBuilder> SubscribeToCommandAsync<TCommand>() where TCommand : ICommand
             {
                 var handler = (ICommandHandler<TCommand>)host.Services.GetService(typeof(ICommandHandler<TCommand>));
-                busClient.WithCommandHandler<TCommand>(handler);
+                await busClient.WithCommandHandlerAsync<TCommand>(handler);
 
                 return this;
             }
 
-            public BusBuilder SubscribeToEvent<TEvent>() where TEvent : IEvent
+            public async Task<BusBuilder> SubscribeToEventAsync<TEvent>() where TEvent : IEvent
             {
                 var handler = (IEventHandler<TEvent>)host.Services.GetService(typeof(IEventHandler<TEvent>));
-                busClient.WithEventHandler<TEvent>(handler);
+                await busClient.WithEventHandlerAsync<TEvent>(handler);
 
                 return this;
             }
