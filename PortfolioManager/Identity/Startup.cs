@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.RabbitMq;
 using Common.Repositories;
 using Identity.Data_Access.SqlServer;
 using Microsoft.AspNetCore.Builder;
@@ -27,8 +28,10 @@ namespace Identity
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddLogging();
             services.AddCustomDbContext<IdentityContext>(Configuration);
             services.AddScoped(typeof(ISqlServerRepository<>),typeof(SqlServerRepository<>));
+            services.AddRabbitMq(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
