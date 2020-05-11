@@ -34,6 +34,12 @@ namespace Common.Services
         /// <returns>Empty Task</returns>
         public async Task Run() => await host.RunAsync();
 
+        /// <summary>
+        /// Creates our own generic host using the default host builder from .net core.
+        /// </summary>
+        /// <typeparam name="TStartup">The startup of the microservice</typeparam>
+        /// <param name="args">Console arguments</param>
+        /// <returns>A <c>HostBuilder</c> instance</returns>
         public static HostBuilder CreateHostBuilder<TStartup>(string[] args) where TStartup : class
             => new HostBuilder(Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
@@ -67,42 +73,71 @@ namespace Common.Services
             }
         }
 
+        /// <summary>
+        /// Class to integrate Command/Event handling.
+        /// </summary>
         public class BusBuilder : BuilderBase
         {
             private readonly IHost host;
             private IBusClient busClient;
+            /// <summary>
+            /// Constructor for the bud builder.
+            /// </summary>
+            /// <param name="host">The .net core host</param>
+            /// <param name="busClient">The bus client that is setup in our microservices</param>
             public BusBuilder(IHost host, IBusClient busClient) : base(host)
             {
                 this.busClient = busClient;
                 this.host = host;
             }
 
-            public async Task<BusBuilder> SubscribeToCommandAsync<TCommand>() where TCommand : ICommand
+            /// <summary>
+            /// Method to subscribe to a command 
+            /// </summary>
+            /// <typeparam name="TCommand">The command to subscribe to</typeparam>
+            /// <returns>To make piping possible</returns>
+            public BusBuilder SubscribeToCommand<TCommand>() where TCommand : ICommand
             {
                 var handler = (ICommandHandler<TCommand>)host.Services.GetService(typeof(ICommandHandler<TCommand>));
-                await busClient.WithCommandHandlerAsync<TCommand>(handler);
+                busClient.WithCommandHandlerAsync<TCommand>(handler);
 
                 return this;
             }
 
-            public async Task<BusBuilder> SubscribeToEventAsync<TEvent>() where TEvent : IEvent
+            /// <summary>
+            /// Method to subscribe to an event
+            /// </summary>
+            /// <typeparam name="TEvent">The event to subscribe to</typeparam>
+            /// <returns>To make piping possible</returns>
+            public BusBuilder SubscribeToEvent<TEvent>() where TEvent : IEvent
             {
                 var handler = (IEventHandler<TEvent>)host.Services.GetService(typeof(IEventHandler<TEvent>));
-                await busClient.WithEventHandlerAsync<TEvent>(handler);
+                busClient.WithEventHandlerAsync<TEvent>(handler);
 
                 return this;
             }
         }
 
+        /// <summary>
+        /// Class to integrate the RabbitMq.
+        /// </summary>
         public class HostBuilder : BuilderBase
         {
             private readonly IHost host;
 
+            /// <summary>
+            /// Constructor for the HostBuilder
+            /// </summary>
+            /// <param name="host">Default net core host instance</param>
             public HostBuilder(IHost host) : base(host)
             {
                 this.host = host;
             }
 
+            /// <summary>
+            /// Pipe for the rawrabbit implementation
+            /// </summary>
+            /// <returns>BusBuilder instance to construct the pipe</returns>
             public BusBuilder UseRabbitMq()
             {
                 var busClient = (IBusClient)host.Services.GetService(typeof(IBusClient));

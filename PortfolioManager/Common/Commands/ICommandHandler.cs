@@ -7,7 +7,7 @@ namespace Common.Commands
 {
     /// <summary> Interface to be implemented by the specific command handlers. </summary>
     /// <typeparam name="TCommand"> The generic command we are going to process. </typeparam>
-    public interface ICommandHandler<TCommand> where TCommand : ICommand
+    public interface ICommandHandler<in TCommand> where TCommand : ICommand
     {
         /// <summary>
         /// Contract about what we are going to handle.

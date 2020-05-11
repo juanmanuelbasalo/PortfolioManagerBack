@@ -18,6 +18,14 @@ namespace Common.RabbitMq
     /// </summary>
     public static class ExtensionMethods
     {
+        /// <summary>
+        /// Helps to subscribe to a command that goes through the http pipe.
+        /// After subscribing sends the command to the command handler.
+        /// </summary>
+        /// <typeparam name="TCommand">The command type to be subscribed.</typeparam>
+        /// <param name="busClient">The RawRabbit service bus.</param>
+        /// <param name="commandHandler">The command handler</param>
+        /// <returns></returns>
         public static Task WithCommandHandlerAsync<TCommand>(this IBusClient busClient,
             ICommandHandler<TCommand> commandHandler) where TCommand : ICommand
         => busClient.SubscribeAsync<TCommand>(async msg => await commandHandler.HandleAsync(msg),

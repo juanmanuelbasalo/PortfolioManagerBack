@@ -9,7 +9,7 @@ namespace Common.Events
     /// Interface used to implement specific event handlers. 
     /// </summary>
     /// <typeparam name="TEvent"> Specific event type. </typeparam>
-    public interface IEventHandler<TEvent> where TEvent : IEvent 
+    public interface IEventHandler<in TEvent> where TEvent : IEvent 
     {
         /// <summary>
         /// Contract about the event we are expecting.
