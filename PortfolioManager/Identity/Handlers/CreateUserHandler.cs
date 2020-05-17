@@ -1,4 +1,11 @@
-﻿using Common.Commands;
+﻿using AutoMapper;
+using Common.Commands;
+using Common.Events;
+using Common.Exceptions;
+using Identity.Domain.Models;
+using Identity.Domain.Services;
+using Microsoft.Extensions.Logging;
+using RawRabbit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +18,44 @@ namespace Identity.Handlers
     /// </summary>
     public class CreateUserHandler : ICommandHandler<CreateUser>
     {
+        private readonly IBusClient busClient;
+        private readonly ILogger<CreateUserHandler> logger;
+        private readonly IMapper mapper;
+        private readonly IUserService userService;
+
+        public CreateUserHandler(IBusClient busClient, ILogger<CreateUserHandler> logger,
+                                 IMapper mapper, IUserService userService)
+        {
+            this.busClient = busClient;
+            this.logger = logger;
+            this.mapper = mapper;
+            this.userService = userService;
+        }
         /// <summary>
         /// Specific Handler for my <c>CreateUser</c> Command.
         /// </summary>
         /// <param name="command">CreateUser command to handle.</param>
         /// <returns>Empty Task</returns>
-        public Task HandleAsync(CreateUser command)
+        public async Task HandleAsync(CreateUser command)
         {
-            throw new NotImplementedException();
+            try
+            {
+                logger.LogInformation($"Creating user: {command.Name}.");
+
+                var user = mapper.Map<UserRegister>(command);
+                var userRegistered = await userService.RegisterAsync(user);
+
+                if (userRegistered == null) await busClient.PublishAsync(new CreateUserRejected(command.Email,
+                                                                         "The email is already in use", "400"));
+                else
+                    await busClient.PublishAsync(new UserCreated(userRegistered.Email, userRegistered.Name));
+
+            }
+            catch (CustomException ex)
+            {
+                await busClient.PublishAsync(new CreateUserRejected(command.Email, "Problem saving user.", ex.Code));
+                logger.LogError(ex.Message);
+            }
         }
     }
 }

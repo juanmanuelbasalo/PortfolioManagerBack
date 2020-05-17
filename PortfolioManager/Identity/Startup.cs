@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Common.Commands;
 using Common.RabbitMq;
 using Common.Repositories;
 using Identity.Data_Access.SqlServer;
+using Identity.Handlers;
+using Identity.HelperMethods;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -32,8 +35,10 @@ namespace Identity
             services.AddLogging();
             services.AddCustomDbContext<IdentityContext>(Configuration);
             services.AddScoped(typeof(ISqlServerRepository<>),typeof(SqlServerRepository<>));
+            services.AddScoped<ICommandHandler<CreateUser>, CreateUserHandler>();
             services.AddRabbitMq(Configuration);
             services.AddAutoMapper(typeof(Startup));
+            services.AddCustomScopedServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
