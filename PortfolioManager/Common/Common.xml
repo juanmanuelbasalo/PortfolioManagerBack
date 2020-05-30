@@ -1,0 +1,311 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Common</name>
+    </assembly>
+    <members>
+        <member name="T:Common.Commands.AuthenticateUser">
+            <summary>
+            <para>Message for the service bus to authenticate a user.</para>
+            <para>Extends the <c>ICommand</c> interface. </para>
+            </summary>
+        </member>
+        <member name="P:Common.Commands.AuthenticateUser.Email">
+            <summary> Represents the user's email. </summary>
+            <value> gets/sets the email that will be used to check if exists. </value>
+        </member>
+        <member name="P:Common.Commands.AuthenticateUser.Password">
+            <summary> Represents the user´s password. </summary>
+            <value> gets/sets user password to check if its the user's password. </value>
+        </member>
+        <member name="T:Common.Commands.CreateUser">
+            <summary>
+            <para>Message for the service bus to create the user.</para>
+            <para>Extends the <c>ICommand</c> interface. </para>
+            </summary>
+        </member>
+        <member name="P:Common.Commands.CreateUser.Name">
+            <summary>
+            Represents the user's name.
+            </summary>
+            <value> gets/sets the user's name.</value>
+        </member>
+        <member name="P:Common.Commands.CreateUser.LastName">
+            <summary>
+            Represents the user's last name.
+            </summary>
+            <value> gets/sets the user's last name. </value>
+        </member>
+        <member name="P:Common.Commands.CreateUser.Email">
+            <summary> Represents the user's email. </summary>
+            <value> gets/sets the user's email. </value>
+        </member>
+        <member name="P:Common.Commands.CreateUser.Password">
+            <summary> Represents the user's password. </summary>
+            <value> gets/sets the un-encrypted user's password </value>
+        </member>
+        <member name="P:Common.Commands.CreateUser.CreatedAt">
+            <summary> 
+            Represents the User creation time. This is only usefull when its and organization account.
+            </summary>
+            <value> gets/sets at what time the user was created. </value>
+        </member>
+        <member name="P:Common.Commands.CreateUser.CreatedBy">
+            <summary> 
+            Represents who created the user. This is only usefull when its and organization account.
+            </summary>
+            <value> gets/sets the admin that created the user. </value>
+        </member>
+        <member name="T:Common.Commands.IAuthenticatedCommand">
+            <summary>
+            <para>Marker interface for commands that need to have a user authenticated.</para>
+            <para>It implements ICommand.</para>
+            </summary>
+        </member>
+        <member name="P:Common.Commands.IAuthenticatedCommand.UserId">
+            <summary>
+            <para>Property that contains the user Id.</para>
+            </summary>
+            <returns>Returns the current User Id.</returns>
+        </member>
+        <member name="T:Common.Commands.ICommand">
+            <summary>
+            Marker interface for the Commands.
+            </summary>
+        </member>
+        <member name="T:Common.Commands.ICommandHandler`1">
+            <summary> Interface to be implemented by the specific command handlers. </summary>
+            <typeparam name="TCommand"> The generic command we are going to process. </typeparam>
+        </member>
+        <member name="M:Common.Commands.ICommandHandler`1.HandleAsync(`0)">
+            <summary>
+            Contract about what we are going to handle.
+            </summary>
+            <param name="command"> The generic command we are going to handle. </param>
+            <returns> Empty Task </returns>
+        </member>
+        <member name="T:Common.Events.IAuthenticatedEvent">
+            <summary>
+            Event for when the user is autheticated
+            </summary>
+        </member>
+        <member name="P:Common.Events.IAuthenticatedEvent.UserId">
+            <summary>
+            Readonly property to get the user id.
+            </summary>
+        </member>
+        <member name="T:Common.Events.IEvent">
+            <summary>
+            Marker Interface 
+            </summary>
+        </member>
+        <member name="T:Common.Events.IEventHandler`1">
+            <summary>
+            Interface used to implement specific event handlers. 
+            </summary>
+            <typeparam name="TEvent"> Specific event type. </typeparam>
+        </member>
+        <member name="M:Common.Events.IEventHandler`1.HandleAsync(`0)">
+            <summary>
+            Contract about the event we are expecting.
+            </summary>
+            <param name="event"> The specific event.</param>
+            <returns>Empty Task.</returns>
+        </member>
+        <member name="T:Common.Exceptions.CustomException">
+            <summary>
+            Custom exception to re throw from my microservices. Contains custom info for the user.
+            </summary>
+        </member>
+        <member name="P:Common.Exceptions.CustomException.Code">
+            <summary>
+            Error code.
+            </summary>
+        </member>
+        <member name="T:Common.RabbitMq.ExtensionMethods">
+            <summary>
+            <c>ExtensionMethods</c> acts as a helper class for any raw rabbit implementations.
+            </summary>
+        </member>
+        <member name="M:Common.RabbitMq.ExtensionMethods.WithCommandHandlerAsync``1(RawRabbit.IBusClient,Common.Commands.ICommandHandler{``0})">
+            <summary>
+            Helps to subscribe to a command that goes through the http pipe.
+            After subscribing sends the command to the command handler.
+            </summary>
+            <typeparam name="TCommand">The command type to be subscribed.</typeparam>
+            <param name="busClient">The RawRabbit service bus.</param>
+            <param name="commandHandler">The command handler</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.RabbitMq.ExtensionMethods.AddRabbitMq(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Method to add a custom raw rabbit implementation with options from my appsettings.
+            </summary>
+            <param name="services"> Add as a singleton service.</param>
+            <param name="configuration"> Get the RabbitMq section.</param>
+            <returns> IServiceCollection to follow with the pipeline.</returns>
+        </member>
+        <member name="T:Common.Repositories.ExtensionMethods">
+            <summary>
+            Extension methods for anything related with Ef Core Sql Server.
+            </summary>
+        </member>
+        <member name="M:Common.Repositories.ExtensionMethods.AddCustomDbContext``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Custom Service to add SqlServer dbcontext for EF Core.
+            </summary>
+            <typeparam name="TContext">The context we are going to use.</typeparam>
+            <param name="services">An instance of IServiceCollection.</param>
+            <param name="configuration">Configuration to get the connection string.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Common.Repositories.ISqlServerRepository`1">
+            <summary>
+            Generic repository interface for Sql Server
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+        </member>
+        <member name="M:Common.Repositories.ISqlServerRepository`1.GetAll">
+            <summary>
+            Gets all the entities
+            </summary>
+            <returns>TEntity</returns>
+        </member>
+        <member name="M:Common.Repositories.ISqlServerRepository`1.Insert(`0)">
+            <summary>
+            Inserts an Entity
+            </summary>
+            <param name="entity">TEntity</param>
+        </member>
+        <member name="M:Common.Repositories.ISqlServerRepository`1.Delete(`0)">
+            <summary>
+            Deletes an entity
+            </summary>
+            <param name="entity">TEntity</param>
+        </member>
+        <member name="M:Common.Repositories.ISqlServerRepository`1.Update(`0)">
+            <summary>
+            Updates an entity.
+            </summary>
+            <param name="entity">TEntity</param>
+        </member>
+        <member name="M:Common.Repositories.ISqlServerRepository`1.FindAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Finds an entity by a searchterm delegate.
+            </summary>
+            <param name="searchTerm">Delegate inside an expression tree.</param>
+            <returns>Task TEntity </returns>
+        </member>
+        <member name="M:Common.Repositories.ISqlServerRepository`1.FindAllAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Finds a group of entities by a search term.
+            </summary>
+            <param name="searchTerm">Delegate inside an expression tree.</param>
+            <returns>List of the entities</returns>
+        </member>
+        <member name="M:Common.Repositories.ISqlServerRepository`1.SaveAsync">
+            <summary>
+            Saves the state of the current context.
+            </summary>
+            <returns>True if succesful</returns>
+        </member>
+        <member name="T:Common.Services.IServiceHost">
+            <summary>
+            <c>IServiceHost</c> Interface with the <c>Run()</c> method, that helps to run our custom Service Host.
+            </summary>
+        </member>
+        <member name="M:Common.Services.IServiceHost.Run">
+            <summary>
+            Method to Run our custom Service Host.
+            </summary>
+            <returns> Empty Task </returns>
+        </member>
+        <member name="T:Common.Services.ServiceHost">
+            <summary>
+            <c>ServiceHost</c> helps create a custom host for the apis.
+            </summary>
+        </member>
+        <member name="M:Common.Services.ServiceHost.#ctor(Microsoft.Extensions.Hosting.IHost)">
+            <summary>
+            <c>ServiceHost</c> constructor.
+            </summary>
+            <param name="host"> The generic host.</param>
+        </member>
+        <member name="M:Common.Services.ServiceHost.Run">
+            <summary>
+            Runs the host with a HTTP workload.
+            This method is called at the end of the method chaining in program.
+            </summary>
+            <returns>Empty Task</returns>
+        </member>
+        <member name="M:Common.Services.ServiceHost.CreateHostBuilder``1(System.String[])">
+            <summary>
+            Creates our own generic host using the default host builder from .net core.
+            </summary>
+            <typeparam name="TStartup">The startup of the microservice</typeparam>
+            <param name="args">Console arguments</param>
+            <returns>A <c>HostBuilder</c> instance</returns>
+        </member>
+        <member name="T:Common.Services.ServiceHost.BuilderBase">
+            <summary>
+            Abstract class to add the build capability to the method chaining.
+            It allows us to reuse functionality.
+            </summary>
+        </member>
+        <member name="M:Common.Services.ServiceHost.BuilderBase.#ctor(Microsoft.Extensions.Hosting.IHost)">
+            <summary>
+            <c>BuilderBase</c> ctor
+            </summary>
+            <param name="host"> The host we are going to build. </param>
+        </member>
+        <member name="M:Common.Services.ServiceHost.BuilderBase.Build">
+            <summary>
+            Function to generate a new <c>ServiceHost</c> to run the web host.
+            </summary>
+            <returns> A new <c>ServiceHost</c></returns>
+        </member>
+        <member name="T:Common.Services.ServiceHost.BusBuilder">
+            <summary>
+            Class to integrate Command/Event handling.
+            </summary>
+        </member>
+        <member name="M:Common.Services.ServiceHost.BusBuilder.#ctor(Microsoft.Extensions.Hosting.IHost,RawRabbit.IBusClient)">
+            <summary>
+            Constructor for the bud builder.
+            </summary>
+            <param name="host">The .net core host</param>
+            <param name="busClient">The bus client that is setup in our microservices</param>
+        </member>
+        <member name="M:Common.Services.ServiceHost.BusBuilder.SubscribeToCommand``1">
+            <summary>
+            Method to subscribe to a command 
+            </summary>
+            <typeparam name="TCommand">The command to subscribe to</typeparam>
+            <returns>To make piping possible</returns>
+        </member>
+        <member name="M:Common.Services.ServiceHost.BusBuilder.SubscribeToEvent``1">
+            <summary>
+            Method to subscribe to an event
+            </summary>
+            <typeparam name="TEvent">The event to subscribe to</typeparam>
+            <returns>To make piping possible</returns>
+        </member>
+        <member name="T:Common.Services.ServiceHost.HostBuilder">
+            <summary>
+            Class to integrate the RabbitMq.
+            </summary>
+        </member>
+        <member name="M:Common.Services.ServiceHost.HostBuilder.#ctor(Microsoft.Extensions.Hosting.IHost)">
+            <summary>
+            Constructor for the HostBuilder
+            </summary>
+            <param name="host">Default net core host instance</param>
+        </member>
+        <member name="M:Common.Services.ServiceHost.HostBuilder.UseRabbitMq">
+            <summary>
+            Pipe for the rawrabbit implementation
+            </summary>
+            <returns>BusBuilder instance to construct the pipe</returns>
+        </member>
+    </members>
+</doc>

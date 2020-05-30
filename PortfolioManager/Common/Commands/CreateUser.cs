@@ -10,6 +10,7 @@ namespace Common.Commands
     /// </summary>
     public class CreateUser : ICommand
     {
+        public Guid Id { get; set; }
         /// <summary>
         /// Represents the user's name.
         /// </summary>

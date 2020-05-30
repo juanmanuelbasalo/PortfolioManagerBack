@@ -20,8 +20,9 @@ namespace Identity.Map_Profile
         public MappingProfile()
         {
             CreateMap<CreateUser, UserRegister>().ReverseMap();
-            CreateMap<UserRegister, User>();
-            CreateMap<User, UserRegistered>();
+            CreateMap<UserRegister, User>().ReverseMap();
+            CreateMap<User, UserRegistered>().ReverseMap();
+            CreateMap<LoginInputModel, AuthenticateUser>().ReverseMap();
         }
     }
 }

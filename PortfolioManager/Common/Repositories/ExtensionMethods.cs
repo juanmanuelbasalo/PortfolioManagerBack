@@ -21,7 +21,7 @@ namespace Common.Repositories
         /// <returns></returns>
         public static IServiceCollection AddCustomDbContext<TContext>(this IServiceCollection services, IConfiguration configuration) where TContext : DbContext
         {
-            return services.AddDbContext<TContext>(options => {
+            return services.AddDbContext<DbContext, TContext>(options => {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
         }

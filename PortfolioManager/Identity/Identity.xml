@@ -1,0 +1,270 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Identity</name>
+    </assembly>
+    <members>
+        <member name="T:Identity.Controllers.AccountController">
+            <summary>
+            This sample controller implements a typical login/logout/provision workflow for local and external accounts.
+            The login service encapsulates the interactions with the user data store. This data store is in-memory only and cannot be used for production!
+            The interaction service provides a way for the UI to communicate with identityserver for validation and context retrieval
+            </summary>
+        </member>
+        <member name="M:Identity.Controllers.AccountController.Login(System.String)">
+            <summary>
+            Entry point into the login workflow
+            </summary>
+        </member>
+        <member name="M:Identity.Controllers.AccountController.Login(Identity.Domain.Models.LoginInputModel,System.String)">
+            <summary>
+            Handle postback from username/password login
+            </summary>
+        </member>
+        <member name="M:Identity.Controllers.AccountController.Logout(System.String)">
+            <summary>
+            Show logout page
+            </summary>
+        </member>
+        <member name="M:Identity.Controllers.AccountController.Logout(Identity.Domain.Models.LogoutInputModel)">
+            <summary>
+            Handle logout page postback
+            </summary>
+        </member>
+        <member name="T:Identity.Controllers.ConsentController">
+            <summary>
+            This controller processes the consent UI
+            </summary>
+        </member>
+        <member name="M:Identity.Controllers.ConsentController.Index(System.String)">
+            <summary>
+            Shows the consent screen
+            </summary>
+            <param name="returnUrl"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Identity.Controllers.ConsentController.Index(Identity.Domain.Models.ConsentInputModel)">
+            <summary>
+            Handles the consent screen postback
+            </summary>
+        </member>
+        <member name="M:Identity.Controllers.ExternalController.Challenge(System.String,System.String)">
+            <summary>
+            initiate roundtrip to external authentication provider
+            </summary>
+        </member>
+        <member name="M:Identity.Controllers.ExternalController.Callback">
+            <summary>
+            Post processing of external authentication
+            </summary>
+        </member>
+        <member name="T:Identity.Controllers.GrantsController">
+            <summary>
+            This sample controller allows a user to revoke grants given to clients
+            </summary>
+        </member>
+        <member name="M:Identity.Controllers.GrantsController.Index">
+            <summary>
+            Show list of grants
+            </summary>
+        </member>
+        <member name="M:Identity.Controllers.GrantsController.Revoke(System.String)">
+            <summary>
+            Handle postback to revoke a client
+            </summary>
+        </member>
+        <member name="M:Identity.Controllers.HomeController.Error(System.String)">
+            <summary>
+            Shows the error page
+            </summary>
+        </member>
+        <member name="T:Identity.Data_Access.Entities.User">
+            <summary>
+            The User entity. Each property represents the columns from the table.
+            </summary>
+        </member>
+        <member name="P:Identity.Data_Access.Entities.User.Id">
+            <summary>
+            User Id.
+            </summary>
+        </member>
+        <member name="P:Identity.Data_Access.Entities.User.Name">
+            <summary>
+            Name of the user.
+            </summary>
+        </member>
+        <member name="P:Identity.Data_Access.Entities.User.LastName">
+            <summary>
+            User's last name.
+            </summary>
+        </member>
+        <member name="P:Identity.Data_Access.Entities.User.Email">
+            <summary>
+            User's email.
+            </summary>
+        </member>
+        <member name="P:Identity.Data_Access.Entities.User.Password">
+            <summary>
+            Encrypted user's password.
+            </summary>
+        </member>
+        <member name="P:Identity.Data_Access.Entities.User.CreatedAt">
+            <summary>
+            Date and time of user's creation.
+            </summary>
+        </member>
+        <member name="P:Identity.Data_Access.Entities.User.CreatedBy">
+            <summary>
+            Who created the user. The system by default.
+            </summary>
+        </member>
+        <member name="T:Identity.Data_Access.SqlServer.IdentityContext">
+            <summary>
+            Represents my Identity Microservice database.
+            </summary>
+        </member>
+        <member name="M:Identity.Data_Access.SqlServer.IdentityContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{Identity.Data_Access.SqlServer.IdentityContext})">
+            <summary>
+            Constructor for the context
+            </summary>
+            <param name="options">Passes the options/connection with the database.</param>
+        </member>
+        <member name="P:Identity.Data_Access.SqlServer.IdentityContext.Users">
+            <summary>
+            Represents the Users table from the database as a DbSet.
+            </summary>
+        </member>
+        <member name="P:Identity.Domain.Models.LoggedInUser.Id">
+            <summary>
+            User Id.
+            </summary>
+        </member>
+        <member name="P:Identity.Domain.Models.LoggedInUser.Name">
+            <summary>
+            Name of the user.
+            </summary>
+        </member>
+        <member name="P:Identity.Domain.Models.LoggedInUser.Email">
+            <summary>
+            User's email.
+            </summary>
+        </member>
+        <member name="P:Identity.Domain.Models.LoggedInUser.Claims">
+            <summary>
+            User claims
+            </summary>
+        </member>
+        <member name="P:Identity.Domain.Models.UserRegister.Name">
+            <summary>
+            Name of the user.
+            </summary>
+        </member>
+        <member name="P:Identity.Domain.Models.UserRegister.LastName">
+            <summary>
+            User's last name.
+            </summary>
+        </member>
+        <member name="P:Identity.Domain.Models.UserRegister.Email">
+            <summary>
+            User's email.
+            </summary>
+        </member>
+        <member name="P:Identity.Domain.Models.UserRegister.Password">
+            <summary>
+            Encrypted user's password.
+            </summary>
+        </member>
+        <member name="P:Identity.Domain.Models.UserRegister.CreatedAt">
+            <summary>
+            Date and time of user's creation.
+            </summary>
+        </member>
+        <member name="P:Identity.Domain.Models.UserRegister.CreatedBy">
+            <summary>
+            Who created the user. The system by default.
+            </summary>
+        </member>
+        <member name="T:Identity.Handlers.CreateUserHandler">
+            <summary>
+            Extends the ICommandHandler interface to create specific handler.
+            </summary>
+        </member>
+        <member name="M:Identity.Handlers.CreateUserHandler.HandleAsync(Common.Commands.CreateUser)">
+            <summary>
+            Specific Handler for my <c>CreateUser</c> Command.
+            </summary>
+            <param name="command">CreateUser command to handle.</param>
+            <returns>Empty Task</returns>
+        </member>
+        <member name="M:Identity.HelperMethods.Extensions.IsPkceClientAsync(IdentityServer4.Stores.IClientStore,System.String)">
+            <summary>
+            Determines whether the client is configured to use PKCE.
+            </summary>
+            <param name="store">The store.</param>
+            <param name="client_id">The client identifier.</param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:Identity.HelperMethods.SecurePasswordHasher.SaltSize" -->
+        <member name="F:Identity.HelperMethods.SecurePasswordHasher.HashSize">
+            <summary>
+            Size of hash.
+            </summary>
+        </member>
+        <member name="M:Identity.HelperMethods.SecurePasswordHasher.Hash(System.String,System.Int32)">
+            <summary>
+            Creates a hash from a password.
+            </summary>
+            <param name="password">The password.</param>
+            <param name="iterations">Number of iterations.</param>
+            <returns>The hash.</returns>
+        </member>
+        <member name="M:Identity.HelperMethods.SecurePasswordHasher.Hash(System.String)">
+            <summary>
+            Creates a hash from a password with 1000 iterations
+            </summary>
+            <param name="password">The password.</param>
+            <returns>The hash.</returns>
+        </member>
+        <member name="M:Identity.HelperMethods.SecurePasswordHasher.IsHashSupported(System.String)">
+            <summary>
+            Checks if hash is supported.
+            </summary>
+            <param name="hashString">The hash.</param>
+            <returns>Is supported?</returns>
+        </member>
+        <member name="M:Identity.HelperMethods.SecurePasswordHasher.IsValid(System.String,System.String)">
+            <summary>
+            Verifies a password against a hash.
+            </summary>
+            <param name="password">The password.</param>
+            <param name="hashedPassword">The hash.</param>
+            <returns>Could be verified?</returns>
+        </member>
+        <member name="T:Identity.Map_Profile.MappingProfile">
+            <summary>
+            Class to create the maps for AutoMapper
+            </summary>
+        </member>
+        <member name="M:Identity.Map_Profile.MappingProfile.#ctor">
+            <summary>
+            In the constructor is where mapper creates the mapping / reverse mapping.
+            </summary>
+        </member>
+        <member name="T:Identity.Program">
+            <summary>
+            Class for the Microservice entry point.
+            </summary>
+        </member>
+        <member name="M:Identity.Program.Main(System.String[])">
+            <summary>
+            Entry point for the <c>Identity</c> Microservice.
+            </summary>
+            <remarks>
+            It builds a generic host for upcoming requests from other microservices.
+            It builds like a pipeline, adding first rabbitmq, subscribes to the command, builds and run the web host.
+            </remarks>
+            <param name="args">Arguments to pass to the microservice.</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

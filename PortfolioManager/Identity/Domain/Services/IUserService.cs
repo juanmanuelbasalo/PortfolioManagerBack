@@ -9,7 +9,7 @@ namespace Identity.Domain.Services
 {
     public interface IUserService
     {
-        Task LoginAsync(AuthenticateUser authenticateUser);
+        Task<LoggedInUser> LoginAsync(AuthenticateUser authenticateUser);
         Task<UserRegistered> RegisterAsync(UserRegister userRegister);
     }
 }

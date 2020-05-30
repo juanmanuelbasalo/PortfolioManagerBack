@@ -22,7 +22,7 @@ namespace Common.Repositories
         public IQueryable<TEntity> GetAll() => Entities.AsNoTracking();
         public void Insert(TEntity entity) => Entities.Add(entity);
         public async Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> searchTerm) 
-            => await Entities.SingleOrDefaultAsync(searchTerm);
+            => await Entities.FirstOrDefaultAsync(searchTerm);
         public void Update(TEntity entity) => dbContext.Update(entity);
         public async Task<bool> SaveAsync()
         {

@@ -8,6 +8,7 @@ namespace Identity.Domain.Models
 {
     public class UserRegister
     {
+        public Guid Id { get; set; } = Guid.NewGuid();
         /// <summary>
         /// Name of the user.
         /// </summary>
@@ -23,7 +24,7 @@ namespace Identity.Domain.Models
         /// <summary>
         /// Encrypted user's password.
         /// </summary>
-        public string Password { get; set; }
+        public string Password { get => password; set => password = SecurePasswordHasher.Hash(value); }
         /// <summary>
         /// Date and time of user's creation.
         /// </summary>
@@ -32,7 +33,6 @@ namespace Identity.Domain.Models
         /// Who created the user. The system by default.
         /// </summary>
         public string CreatedBy { get; set; }
-        public string HashedPassword()
-            => SecurePasswordHasher.Hash(Password);
+        private string password;
     }
 }

@@ -75,6 +75,8 @@ namespace Identity.HelperMethods
         public static bool IsValid(string password, string hashedPassword)
         {
             // Check hash
+            if (password == null || hashedPassword == null) return false;
+
             if (!IsHashSupported(hashedPassword))
             {
                 throw new NotSupportedException("The hashtype is not supported");

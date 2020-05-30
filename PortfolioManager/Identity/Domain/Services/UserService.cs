@@ -4,9 +4,13 @@ using Common.Exceptions;
 using Common.Repositories;
 using Identity.Data_Access.Entities;
 using Identity.Domain.Models;
+using Identity.HelperMethods;
+using IdentityModel;
+using Microsoft.AspNetCore.Authentication;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Identity.Domain.Services
@@ -21,22 +25,41 @@ namespace Identity.Domain.Services
             this.repository = repository;
             this.mapper = mapper;
         }
-        public async Task LoginAsync(AuthenticateUser authenticateUser)
+        public async Task<LoggedInUser> LoginAsync(AuthenticateUser authenticateUser)
         {
-            throw new NotImplementedException();
+            if (authenticateUser == null) throw new CustomException("empty_credentials", $"Credentials are empty");
+
+            var user = await repository.FindAsync(u => authenticateUser.Email.Equals(u.Email));
+            
+            var isValid = SecurePasswordHasher.IsValid(authenticateUser.Password, user?.Password);
+            if (!isValid) return null;
+
+            var loggedUser = new LoggedInUser()
+            {
+                Email = user.Email,
+                Id = user.Id,
+                Name = user.Name,
+                Claims =
+                {
+                    new Claim(JwtClaimTypes.Name, $"{user.Name} {user.LastName}"),
+                    new Claim(JwtClaimTypes.Email, user.Email)
+                }
+            };
+
+            return loggedUser;
         }
 
         public async Task<UserRegistered> RegisterAsync(UserRegister userRegister)
         {
             if (userRegister == null) throw new CustomException("empty_user", $"User is empty.");
 
-            var existingUser = await repository.FindAsync(user => userRegister.Email.Equals(user.Email, StringComparison.CurrentCultureIgnoreCase));
+            var existingUser = await repository.FindAsync(user => userRegister.Email.ToLower() == user.Email.ToLower());
 
             if (existingUser != null) return null;
 
             var user = mapper.Map<User>(userRegister);
-            user.Password = userRegister.HashedPassword();
 
+            repository.Insert(user);
             var success = await repository.SaveAsync();
 
             if (success) 

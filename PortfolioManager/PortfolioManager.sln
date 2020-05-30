@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{C8D0DAD3-D603-4815-80DC-BA2354AE8383}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity", "Identity\Identity.csproj", "{B26A4095-A183-485E-8063-9EE97C3F7B6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity", "Identity\Identity.csproj", "{B26A4095-A183-485E-8063-9EE97C3F7B6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCClient", "MVCClient\MVCClient.csproj", "{63D6E046-CDB9-4255-83A5-0A8413E135D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{B26A4095-A183-485E-8063-9EE97C3F7B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B26A4095-A183-485E-8063-9EE97C3F7B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B26A4095-A183-485E-8063-9EE97C3F7B6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63D6E046-CDB9-4255-83A5-0A8413E135D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63D6E046-CDB9-4255-83A5-0A8413E135D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63D6E046-CDB9-4255-83A5-0A8413E135D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63D6E046-CDB9-4255-83A5-0A8413E135D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

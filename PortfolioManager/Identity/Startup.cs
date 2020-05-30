@@ -1,21 +1,30 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Common.Auth;
 using Common.Commands;
 using Common.RabbitMq;
 using Common.Repositories;
 using Identity.Data_Access.SqlServer;
 using Identity.Handlers;
 using Identity.HelperMethods;
+using Identity.IdentityServer4;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Mappers;
+using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Identity
 {
@@ -31,7 +40,7 @@ namespace Identity
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllersWithViews();
             services.AddLogging();
             services.AddCustomDbContext<IdentityContext>(Configuration);
             services.AddScoped(typeof(ISqlServerRepository<>),typeof(SqlServerRepository<>));
@@ -39,6 +48,7 @@ namespace Identity
             services.AddRabbitMq(Configuration);
             services.AddAutoMapper(typeof(Startup));
             services.AddCustomScopedServices();
+            services.AddCustomIdentityServer(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,16 +59,21 @@ namespace Identity
                 app.UseDeveloperExceptionPage();
             }
 
-            mapper.ConfigurationProvider.AssertConfigurationIsValid();
-
+            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseAuthorization();
 
+            mapper.ConfigurationProvider.AssertConfigurationIsValid();
+
+            app.UseIdentityServer();
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapDefaultControllerRoute();
             });
+   
         }
+
     }
 }
