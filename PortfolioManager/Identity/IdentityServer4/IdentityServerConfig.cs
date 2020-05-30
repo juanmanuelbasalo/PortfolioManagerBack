@@ -4,9 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,8 +37,7 @@ namespace Identity.IdentityServer4
             .AddSigningCredential(signingCredentials);
         }
 
-        private static SigningCredentials CreateSigningCredentials()
-            => new SigningCredentials(new RsaSecurityKey(new RSACryptoServiceProvider(512))
-                                      ,SecurityAlgorithms.RsaSha256);
+        private static X509Certificate2 CreateSigningCredentials()
+            => new X509Certificate2(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rsaCert.pfx"), "wisard80");
     }
 }

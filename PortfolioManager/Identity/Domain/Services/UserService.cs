@@ -39,7 +39,7 @@ namespace Identity.Domain.Services
                 Email = user.Email,
                 Id = user.Id,
                 Name = user.Name,
-                Claims =
+                Claims = new List<Claim>
                 {
                     new Claim(JwtClaimTypes.Name, $"{user.Name} {user.LastName}"),
                     new Claim(JwtClaimTypes.Email, user.Email)

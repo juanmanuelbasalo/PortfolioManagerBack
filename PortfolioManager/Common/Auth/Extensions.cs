@@ -3,7 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace Common.Auth
@@ -16,6 +18,9 @@ namespace Common.Auth
             var seccion = configuration.GetSection("jwt");
             seccion.Bind(jwtOptions);
 
+            var certificate = new X509Certificate2(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rsaCert.pfx"), "wisard80");
+            var key = new X509SecurityKey(certificate);
+
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
@@ -24,8 +29,9 @@ namespace Common.Auth
 
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
+                        ValidateIssuer = true,
                         ValidateAudience = true,
-                        IssuerSigningKey = new RsaSecurityKey(new RSACryptoServiceProvider(512)),
+                        IssuerSigningKey = key                     
                     };
 
                     options.Audience = "api1";
