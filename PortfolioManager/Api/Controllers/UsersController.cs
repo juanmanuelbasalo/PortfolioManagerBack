@@ -22,13 +22,15 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "standard")]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(401)]
         public IActionResult Get()
         {
             return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
         }
 
-        [HttpPost("RegisterUser")]
+        [HttpPost]
         [ProducesResponseType(202)]
         [ProducesResponseType(500)]
         public async Task<ActionResult> RegisterUser([FromBody] CreateUser createUser)

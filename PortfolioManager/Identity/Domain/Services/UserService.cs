@@ -42,7 +42,8 @@ namespace Identity.Domain.Services
                 Claims = new List<Claim>
                 {
                     new Claim(JwtClaimTypes.Name, $"{user.Name} {user.LastName}"),
-                    new Claim(JwtClaimTypes.Email, user.Email)
+                    new Claim(JwtClaimTypes.Email, user.Email),
+                    new Claim("role", user.Role),
                 }
             };
 

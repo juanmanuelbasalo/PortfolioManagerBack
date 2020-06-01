@@ -21,6 +21,7 @@ namespace Identity.Domain.Models
         /// User's email.
         /// </summary>
         public string Email { get; set; }
+        public string Role { get; set; }
         /// <summary>
         /// Encrypted user's password.
         /// </summary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Identity.Data_Access.Entities
@@ -30,6 +31,10 @@ namespace Identity.Data_Access.Entities
         /// Encrypted user's password.
         /// </summary>
         public string Password { get; set; }
+        /// <summary>
+        /// To create role base authentication with ids4
+        /// </summary>
+        public string Role { get; set; }
         /// <summary>
         /// Date and time of user's creation.
         /// </summary>

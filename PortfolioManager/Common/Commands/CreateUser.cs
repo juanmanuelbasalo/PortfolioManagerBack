@@ -27,6 +27,7 @@ namespace Common.Commands
         /// <summary> Represents the user's password. </summary>
         /// <value> gets/sets the un-encrypted user's password </value>
         public string Password { get; set; }
+        public string Role { get; set; }
         /// <summary> 
         /// Represents the User creation time. This is only usefull when its and organization account.
         /// </summary>

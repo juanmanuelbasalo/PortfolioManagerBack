@@ -108,6 +108,11 @@
             Encrypted user's password.
             </summary>
         </member>
+        <member name="P:Identity.Data_Access.Entities.User.Role">
+            <summary>
+            To create role base authentication with ids4
+            </summary>
+        </member>
         <member name="P:Identity.Data_Access.Entities.User.CreatedAt">
             <summary>
             Date and time of user's creation.

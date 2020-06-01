@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Identity.HelperMethods
 {
-    public abstract class DesignTimeDbContextFactoryBase<TContext> : IDesignTimeDbContextFactory<TContext> 
+    public abstract class DesignTimeDbContextFactoryBase<TContext> : IDesignTimeDbContextFactory<TContext>
                                                                      where TContext : DbContext
     {
         protected string ConnectionStringName { get; }

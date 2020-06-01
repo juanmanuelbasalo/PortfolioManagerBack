@@ -1,4 +1,5 @@
-﻿using IdentityServer4.EntityFramework.DbContexts;
+﻿using Identity.Data_Access.SqlServer;
+using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -31,6 +32,19 @@ namespace Identity.HelperMethods
         protected override PersistedGrantDbContext CreateNewInstance(DbContextOptions<PersistedGrantDbContext> options)
         {
             return new PersistedGrantDbContext(options, new OperationalStoreOptions());
+        }
+    }
+
+    public class IdentityContextDesignTimeFactory : DesignTimeDbContextFactoryBase<IdentityContext>
+    {
+        public IdentityContextDesignTimeFactory() : 
+            base("DefaultConnection", typeof(Startup).GetTypeInfo().Assembly.GetName().Name)
+        {
+
+        }
+        protected override IdentityContext CreateNewInstance(DbContextOptions<IdentityContext> options)
+        {
+            return new IdentityContext(options);
         }
     }
 }

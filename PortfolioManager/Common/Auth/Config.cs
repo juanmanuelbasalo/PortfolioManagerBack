@@ -2,6 +2,7 @@
 using IdentityServer4.Models;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 
 namespace Common.Auth
@@ -11,7 +12,8 @@ namespace Common.Auth
         public static IEnumerable<ApiResource> Apis =>
             new List<ApiResource>
             {
-                new ApiResource("api1", "My API")
+                new ApiResource("api1", "My API"),
+                new ApiResource("roles", "My roles", new[] { "role" })
             };
 
         public static IEnumerable<Client> Clients =>
@@ -54,7 +56,8 @@ namespace Common.Auth
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "api1"
+                        "api1",
+                        "roles"
                     },
 
                     AllowOfflineAccess = true
