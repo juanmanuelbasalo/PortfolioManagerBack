@@ -12,7 +12,7 @@ namespace Common.Auth
         public static IEnumerable<ApiResource> Apis =>
             new List<ApiResource>
             {
-                new ApiResource("api1", "My API"),
+                new ApiResource("EntryApi", "My API"),
                 new ApiResource("roles", "My roles", new[] { "role" })
             };
 
@@ -56,7 +56,7 @@ namespace Common.Auth
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "api1",
+                        "EntryApi",
                         "roles"
                     },
 

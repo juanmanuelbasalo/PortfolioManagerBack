@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Api.Data_Access.Sql_Context;
+using Api.Helpers;
 using Common.Auth;
 using Common.RabbitMq;
+using Common.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +32,9 @@ namespace Api
         {
             services.AddControllers();
             services.AddRabbitMq(Configuration);
+            services.AddCustomDbContext<ApiContext>(Configuration);
+            services.AddScoped(typeof(ISqlServerRepository<>), typeof(SqlServerRepository<>));
+            services.AddEventHandlers();
             services.AddCustomAuthentication(Configuration);
         }
 

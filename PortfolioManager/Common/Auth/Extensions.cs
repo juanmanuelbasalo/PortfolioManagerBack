@@ -34,7 +34,7 @@ namespace Common.Auth
                         IssuerSigningKey = key                     
                     };
 
-                    options.Audience = "api1";
+                    options.Audience = jwtOptions.Audience;
                 });
         }
     }

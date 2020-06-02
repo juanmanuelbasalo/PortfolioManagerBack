@@ -30,4 +30,9 @@
     <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Domain\Models\" />
+    <Folder Include="Domain\Services\" />
+  </ItemGroup>
+
 </Project>
