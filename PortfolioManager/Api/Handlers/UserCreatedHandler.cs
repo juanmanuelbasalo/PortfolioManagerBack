@@ -1,4 +1,7 @@
-﻿using Common.Events;
+﻿using Api.Domain.Models;
+using Api.Domain.Services;
+using Common.Events;
+using Common.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +11,14 @@ namespace Api.Handlers
 {
     public class UserCreatedHandler : IEventHandler<UserCreated>
     {
-        public UserCreatedHandler()
+        private readonly IUserService service;
+        public UserCreatedHandler(IUserService service)
         {
-
+            this.service = service;
         }
-        public Task HandleAsync(UserCreated @event)
+        public async Task HandleAsync(UserCreated @event)
         {
-            throw new NotImplementedException();
+            await service.AddUserAsync(new User { Email = @event.Email, Name = @event.Name });
         }
     }
 }

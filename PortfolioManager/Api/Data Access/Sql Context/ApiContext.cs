@@ -1,4 +1,4 @@
-﻿using Api.Data_Access.Entities;
+﻿using Api.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,6 +18,14 @@ namespace Api.Data_Access.Sql_Context
         /// <param name="options">Passes the options/connection with the database.</param>
         public ApiContext(DbContextOptions<ApiContext> options) : base(options)
         {
+        }
+        public ApiContext()
+        {
+
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=ApiStorage;User Id=sa;Password=joamod%22b;");
         }
 
         /// <summary>

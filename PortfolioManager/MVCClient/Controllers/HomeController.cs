@@ -32,7 +32,7 @@ namespace MVCClient.Controllers
 
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            var content = await client.GetStringAsync("http://localhost:5000/api/users");
+            var content = await client.GetStringAsync("http://localhost:5000/api/users/GetAllUsers");
 
             ViewBag.Json = JArray.Parse(content).ToString();
             return View("json");

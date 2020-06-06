@@ -4,5 +4,21 @@
         <name>Api</name>
     </assembly>
     <members>
+        <member name="T:Api.Data_Access.Sql_Context.ApiContext">
+            <summary>
+            Representes my Api gateway database
+            </summary>
+        </member>
+        <member name="M:Api.Data_Access.Sql_Context.ApiContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{Api.Data_Access.Sql_Context.ApiContext})">
+            <summary>
+            Constructor for the context
+            </summary>
+            <param name="options">Passes the options/connection with the database.</param>
+        </member>
+        <member name="P:Api.Data_Access.Sql_Context.ApiContext.Users">
+            <summary>
+            Represents the Users table from the database as a DbSet.
+            </summary>
+        </member>
     </members>
 </doc>

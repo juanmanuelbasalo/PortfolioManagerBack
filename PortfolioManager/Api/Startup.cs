@@ -35,6 +35,7 @@ namespace Api
             services.AddCustomDbContext<ApiContext>(Configuration);
             services.AddScoped(typeof(ISqlServerRepository<>), typeof(SqlServerRepository<>));
             services.AddEventHandlers();
+            services.AddScoppedServices();
             services.AddCustomAuthentication(Configuration);
         }
 

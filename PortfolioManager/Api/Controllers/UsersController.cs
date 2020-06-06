@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Api.Domain.Services;
 using Common.Commands;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -15,22 +16,26 @@ namespace Api.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IBusClient busClient;
+        private readonly IUserService userService;
 
-        public UsersController(IBusClient busClient)
+        public UsersController(IBusClient busClient, IUserService userService)
         {
             this.busClient = busClient;
+            this.userService = userService;
         }
 
-        [HttpGet]
+        [HttpGet("GetAllUsers")]
         [Authorize(Roles = "standard")]
         [ProducesResponseType(403)]
         [ProducesResponseType(401)]
-        public IActionResult Get()
+        [ProducesResponseType(200)]
+        public async Task<ActionResult> GetAllUsers()
         {
-            return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
+            var users = await userService.GetAllAsync();
+            return Ok(users);
         }
 
-        [HttpPost]
+        [HttpPost("RegisterUser")]
         [ProducesResponseType(202)]
         [ProducesResponseType(500)]
         public async Task<ActionResult> RegisterUser([FromBody] CreateUser createUser)

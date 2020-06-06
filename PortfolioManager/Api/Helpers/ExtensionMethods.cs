@@ -1,4 +1,4 @@
-﻿using Api.Data_Access.Entities;
+﻿using Api.Domain.Services;
 using Api.Handlers;
 using Common.Events;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,5 +15,7 @@ namespace Api.Helpers
         {
             return services.AddScoped<IEventHandler<UserCreated>, UserCreatedHandler>();
         }
+        public static IServiceCollection AddScoppedServices(this IServiceCollection services)
+            => services.AddScoped<IUserService, UserService>();
     }
 }
