@@ -18,6 +18,7 @@ namespace Api
             await ServiceHost.CreateHostBuilder<Startup>(args)
                 .UseRabbitMq()
                 .SubscribeToEvent<UserCreated>()
+                .SubscribeToEvent<CreateUserRejected>()
                 .Build()
                 .Run();
         }

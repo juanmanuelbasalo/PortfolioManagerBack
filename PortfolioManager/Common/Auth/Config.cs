@@ -61,6 +61,31 @@ namespace Common.Auth
                     },
 
                     AllowOfflineAccess = true
+                },
+
+                // JavaScript Client
+                new Client
+                {
+                    ClientId = "angular_spa",
+                    ClientName = "Angular SPA",
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequireConsent = false,
+                    RequirePkce = true,
+                    RequireClientSecret = false,
+                    AlwaysIncludeUserClaimsInIdToken=true,
+
+                    RedirectUris =           { "http://localhost:5002/auth-callback" },
+                    PostLogoutRedirectUris = { "http://localhost:5002/" },
+                    AllowedCorsOrigins =     { "http://localhost:5002" },
+
+                     AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        "EntryApi",
+                        "roles"
+                    },
                 }
             };
 

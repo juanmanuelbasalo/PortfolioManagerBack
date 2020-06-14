@@ -36,6 +36,17 @@ namespace Common.Auth
 
                     options.Audience = jwtOptions.Audience;
                 });
+
+            services.AddCors(options =>
+            {
+                // this defines a CORS policy called "default"
+                options.AddPolicy("default", policy =>
+                {
+                    policy.WithOrigins("http://localhost:5002")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
         }
     }
 }

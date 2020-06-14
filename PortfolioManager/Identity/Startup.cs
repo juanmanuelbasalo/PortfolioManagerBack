@@ -49,6 +49,16 @@ namespace Identity
             services.AddAutoMapper(typeof(Startup));
             services.AddCustomScopedServices();
             services.AddCustomIdentityServer(Configuration);
+            services.AddCors(options =>
+            {
+                // this defines a CORS policy called "default"
+                options.AddPolicy("default", policy =>
+                {
+                    policy.WithOrigins("http://localhost:5002")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +74,8 @@ namespace Identity
 
             app.UseStaticFiles();
             app.UseRouting();
+
+            app.UseCors("default");
 
             app.UseAuthorization();
 

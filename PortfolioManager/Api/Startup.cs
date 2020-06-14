@@ -37,6 +37,7 @@ namespace Api
             services.AddEventHandlers();
             services.AddScoppedServices();
             services.AddCustomAuthentication(Configuration);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +49,8 @@ namespace Api
             }
 
             app.UseRouting();
+
+            app.UseCors("default");
 
             app.UseAuthentication();
             app.UseAuthorization();

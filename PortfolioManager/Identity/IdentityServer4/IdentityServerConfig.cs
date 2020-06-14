@@ -27,14 +27,17 @@ namespace Identity.IdentityServer4
             var signingCredentials = CreateSigningCredentials();
 
             return services.AddIdentityServer()
-            .AddConfigurationStore(options =>
-            {
-                options.ConfigureDbContext = b => b.UseSqlServer(serverOptions.ConnectionString);
-            })
-            .AddOperationalStore(options =>
-            {
-                options.ConfigureDbContext = b => b.UseSqlServer(serverOptions.ConnectionString);
-            })
+                .AddInMemoryIdentityResources(Config.Ids)
+                .AddInMemoryApiResources(Config.Apis)
+                .AddInMemoryClients(Config.Clients)
+            //.AddConfigurationStore(options =>
+            //{
+            //    options.ConfigureDbContext = b => b.UseSqlServer(serverOptions.ConnectionString);
+            //})
+            //.AddOperationalStore(options =>
+            //{
+            //    options.ConfigureDbContext = b => b.UseSqlServer(serverOptions.ConnectionString);
+            //})
             .AddSigningCredential(signingCredentials);
         }
 

@@ -41,7 +41,7 @@ namespace Identity.Domain.Services
                 Name = user.Name,
                 Claims = new List<Claim>
                 {
-                    new Claim(JwtClaimTypes.Name, $"{user.Name} {user.LastName}"),
+                    new Claim(JwtClaimTypes.Name, $"{user.Name}"),
                     new Claim(JwtClaimTypes.Email, user.Email),
                     new Claim("role", user.Role),
                 }
@@ -59,6 +59,8 @@ namespace Identity.Domain.Services
             if (existingUser != null) return null;
 
             var user = mapper.Map<User>(userRegister);
+            user.Role = "standard";
+            user.CreatedBy = "Angular";
 
             repository.Insert(user);
             var success = await repository.SaveAsync();
