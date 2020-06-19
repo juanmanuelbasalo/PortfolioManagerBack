@@ -29,7 +29,7 @@ namespace Identity.Domain.Services
         {
             if (authenticateUser == null) throw new CustomException("empty_credentials", $"Credentials are empty");
 
-            var user = await repository.FindAsync(u => authenticateUser.Email.Equals(u.Email));
+            var user = await repository.FindAsync(u => authenticateUser.Email.ToLower().Equals(u.Email));
             
             var isValid = SecurePasswordHasher.IsValid(authenticateUser.Password, user?.Password);
             if (!isValid) return null;
@@ -61,6 +61,7 @@ namespace Identity.Domain.Services
             var user = mapper.Map<User>(userRegister);
             user.Role = "standard";
             user.CreatedBy = "Angular";
+            user.CreatedAt = DateTimeOffset.UtcNow;
 
             repository.Insert(user);
             var success = await repository.SaveAsync();

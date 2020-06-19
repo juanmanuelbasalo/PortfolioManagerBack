@@ -29,24 +29,12 @@ namespace Api.Domain.Services
                 throw new CustomException("problem_saving", "Problem creating the user.");
         }
 
-        public bool DeleteUser(User user)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IEnumerable<User>> GetAllAsync()
         {
             return await repository.FindAllAsync(user => user.Email != null);
         }
 
-        public User GetAsync(Guid userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool UpdateUser(User user)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<bool> EmailTakenAsync(string email)
+            => (await repository.FindAsync(user => user.Email.Equals(email))) != null;
     }
 }

@@ -11,9 +11,7 @@ namespace Api.Domain.Services
     public interface IUserService
     {
         public Task AddUserAsync(User user);
-        public bool DeleteUser(User user);
-        public bool UpdateUser(User user);
-        public User GetAsync(Guid userId);
+        public Task<bool> EmailTakenAsync(string email);
         public Task<IEnumerable<User>> GetAllAsync();
     }
 }

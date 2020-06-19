@@ -40,8 +40,11 @@ namespace Api.Controllers
         [ProducesResponseType(500)]
         public async Task<ActionResult> RegisterUser([FromBody] CreateUser createUser)
         {
+            var emailTaken = await userService.EmailTakenAsync(createUser.Email);
+            if (emailTaken) return BadRequest("Email already taken");
+
             await busClient.PublishAsync(createUser);
-            return Accepted();
+            return Accepted($"RegisterUser/{createUser.Email}");
         }
     }
 }

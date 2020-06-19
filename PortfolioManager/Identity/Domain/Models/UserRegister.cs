@@ -29,7 +29,7 @@ namespace Identity.Domain.Models
         /// <summary>
         /// Date and time of user's creation.
         /// </summary>
-        public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+        public DateTimeOffset CreatedAt { get; set; } 
         /// <summary>
         /// Who created the user. The system by default.
         /// </summary>
