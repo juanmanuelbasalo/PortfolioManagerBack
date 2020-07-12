@@ -17,6 +17,6 @@ namespace PortfolioSystem.Data_Access.SqlServer
         public DbSet<Portfolio> Portfolios { get; set; }
         public DbSet<Security> Securities { get; set; }
         public DbSet<Stock> Stocks { get; set; }
-        public DbSet<Stock> Bonds { get; set; }
+        public DbSet<Bond> Bonds { get; set; }
     }
 }

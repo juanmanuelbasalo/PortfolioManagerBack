@@ -29,10 +29,10 @@ namespace PortfolioSystem
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            //services.AddRabbitMq(Configuration);
+            services.AddRabbitMq(Configuration);
             services.AddCustomDbContext<PortfolioSystemContext>(Configuration);
-            //services.AddScoped(typeof(ISqlServerRepository<>), typeof(SqlServerRepository<>));
-            //services.AddCustomAuthentication(Configuration);
+            services.AddScoped(typeof(ISqlServerRepository<>), typeof(SqlServerRepository<>));
+            services.AddCustomAuthentication(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
