@@ -48,7 +48,8 @@ namespace Identity.Handlers
                 if (userRegistered == null) await busClient.PublishAsync(new CreateUserRejected(command.Email,
                                                                          "The email is already in use", "400"));
                 else
-                    await busClient.PublishAsync(new UserCreated(userRegistered.Email, userRegistered.Name));
+                    await busClient.PublishAsync(new UserCreated(userRegistered.Email, userRegistered.Name, 
+                                                 userRegistered.UserName, userRegistered.LastActive));
 
             }
             catch (CustomException ex)

@@ -18,7 +18,8 @@ namespace Api.Handlers
         }
         public async Task HandleAsync(UserCreated @event)
         {
-            await service.AddUserAsync(new User { Email = @event.Email, Name = @event.Name });
+            await service.AddUserAsync(new User { Email = @event.Email, Name = @event.Name, 
+                UserName = @event.UserName, LastActive = @event.LastActive });
         }
     }
 }

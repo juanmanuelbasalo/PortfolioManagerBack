@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Api.Data_Access.Sql_Context;
-using Api.Helpers;
 using Common.Auth;
 using Common.RabbitMq;
 using Common.Repositories;
@@ -14,9 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Logging;
+using PortfolioSystem.Data_Access.SqlServer;
 
-namespace Api
+namespace PortfolioSystem
 {
     public class Startup
     {
@@ -31,12 +29,10 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddRabbitMq(Configuration);
-            services.AddCustomDbContext<ApiContext>(Configuration);
-            services.AddScoped(typeof(ISqlServerRepository<>), typeof(SqlServerRepository<>));
-            services.AddEventHandlers();
-            services.AddScoppedServices();
-            services.AddCustomAuthentication(Configuration);
+            //services.AddRabbitMq(Configuration);
+            services.AddCustomDbContext<PortfolioSystemContext>(Configuration);
+            //services.AddScoped(typeof(ISqlServerRepository<>), typeof(SqlServerRepository<>));
+            //services.AddCustomAuthentication(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,10 +42,9 @@ namespace Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors("default");
 
             app.UseRouting();
-
-            app.UseCors("default");
 
             app.UseAuthentication();
             app.UseAuthorization();

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity", "Identity\Identity.csproj", "{B26A4095-A183-485E-8063-9EE97C3F7B6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCClient", "MVCClient\MVCClient.csproj", "{63D6E046-CDB9-4255-83A5-0A8413E135D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioSystem", "PortfolioSystem\PortfolioSystem.csproj", "{3D4AA69F-BC09-4472-9623-E74A4200849A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{B26A4095-A183-485E-8063-9EE97C3F7B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B26A4095-A183-485E-8063-9EE97C3F7B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B26A4095-A183-485E-8063-9EE97C3F7B6F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{63D6E046-CDB9-4255-83A5-0A8413E135D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63D6E046-CDB9-4255-83A5-0A8413E135D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63D6E046-CDB9-4255-83A5-0A8413E135D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{63D6E046-CDB9-4255-83A5-0A8413E135D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D4AA69F-BC09-4472-9623-E74A4200849A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D4AA69F-BC09-4472-9623-E74A4200849A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D4AA69F-BC09-4472-9623-E74A4200849A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D4AA69F-BC09-4472-9623-E74A4200849A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

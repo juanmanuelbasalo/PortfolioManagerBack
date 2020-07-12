@@ -15,6 +15,7 @@ namespace Identity.Data_Access.Entities
         /// User Id.
         /// </summary>
         public Guid Id { get; set; }
+        public string UserName { get; set; }
         /// <summary>
         /// Name of the user.
         /// </summary>
@@ -43,5 +44,6 @@ namespace Identity.Data_Access.Entities
         /// Who created the user. The system by default.
         /// </summary>
         public string CreatedBy { get; set; }
+        public DateTimeOffset LastActive { get; set; }
     }
 }

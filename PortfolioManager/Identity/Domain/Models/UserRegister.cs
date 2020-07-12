@@ -17,6 +17,7 @@ namespace Identity.Domain.Models
         /// User's last name.
         /// </summary>
         public string LastName { get; set; }
+        public string UserName { get; set; }
         /// <summary>
         /// User's email.
         /// </summary>
@@ -34,6 +35,8 @@ namespace Identity.Domain.Models
         /// Who created the user. The system by default.
         /// </summary>
         public string CreatedBy { get; set; }
+        public DateTimeOffset LastActive { get; set; }
+
         private string password;
     }
 }

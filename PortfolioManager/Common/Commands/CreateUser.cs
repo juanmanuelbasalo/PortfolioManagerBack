@@ -24,6 +24,8 @@ namespace Common.Commands
         /// <value> gets/sets the user's last name. </value>
         [Required(ErrorMessage = "Insert your lastname")]
         public string LastName { get; set; }
+        [Required(ErrorMessage = "Please add your user name")]
+        public string UserName { get; set; }
         /// <summary> Represents the user's email. </summary>
         /// <value> gets/sets the user's email. </value>
         [Required(ErrorMessage = "Mandatory field")]
@@ -45,5 +47,6 @@ namespace Common.Commands
         /// </summary>
         /// <value> gets/sets the admin that created the user. </value>
         public string CreatedBy { get; set; }
+        public DateTimeOffset LastActive { get; set; }
     }
 }

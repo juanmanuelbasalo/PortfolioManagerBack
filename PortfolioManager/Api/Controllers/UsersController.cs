@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Api.Domain.Services;
 using Common.Commands;
+using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +33,9 @@ namespace Api.Controllers
         public async Task<ActionResult> GetAllUsers()
         {
             var users = await userService.GetAllAsync();
+            //test what this does after doing the migration
+            var testClaims = User;
+            var test = User.Identity.GetSubjectId();
             return Ok(users);
         }
 
