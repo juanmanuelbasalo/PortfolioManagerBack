@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Common.Auth;
 using Common.RabbitMq;
 using Common.Repositories;
@@ -33,6 +34,7 @@ namespace PortfolioSystem
             services.AddCustomDbContext<PortfolioSystemContext>(Configuration);
             services.AddScoped(typeof(ISqlServerRepository<>), typeof(SqlServerRepository<>));
             services.AddCustomAuthentication(Configuration);
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

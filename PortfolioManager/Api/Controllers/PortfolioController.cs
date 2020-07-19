@@ -26,9 +26,11 @@ namespace Api.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult> CreatePortfolio([FromBody] CreatePortfolio)
+        public async Task<ActionResult> CreatePortfolio([FromBody] CreatePortfolio createPortfolio)
         {
-            throw new NotImplementedException();
+            createPortfolio.UserName = User.Identity.Name;
+            await busClient.PublishAsync(createPortfolio);
+            return Accepted($"CreatePortfolio/{createPortfolio.PortfolioId}");
         }
     }
 }
