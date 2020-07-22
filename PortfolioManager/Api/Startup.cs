@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Api.Data_Access.Sql_Context;
 using Api.Helpers;
+using AutoMapper;
 using Common.Auth;
 using Common.RabbitMq;
 using Common.Repositories;
@@ -36,6 +37,7 @@ namespace Api
             services.AddScoped(typeof(ISqlServerRepository<>), typeof(SqlServerRepository<>));
             services.AddEventHandlers();
             services.AddScoppedServices();
+            services.AddAutoMapper(typeof(Startup));
             services.AddCustomAuthentication(Configuration);
         }
 

@@ -19,6 +19,8 @@ namespace Api
                 .UseRabbitMq()
                 .SubscribeToEvent<UserCreated>()
                 .SubscribeToEvent<CreateUserRejected>()
+                .SubscribeToEvent<PortfolioCreated>()
+                .SubscribeToEvent<CreatePortfolioRejected>()
                 .Build()
                 .Run();
         }

@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Common.Events
 {
-    public class CreatePortfolioRejected : IAuthenticatedEvent
+    public class CreatePortfolioRejected : IAuthenticatedEvent, IRejectedEvent
     {
         public string UserName { get; }
-        public string Name { get; set; }
+        public string Name { get; }
         public string Reason { get; }
         public string Code { get; }
 

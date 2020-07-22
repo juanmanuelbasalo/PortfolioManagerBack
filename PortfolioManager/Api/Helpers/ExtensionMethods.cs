@@ -13,9 +13,11 @@ namespace Api.Helpers
     {
         public static IServiceCollection AddEventHandlers(this IServiceCollection services)
         {
-            return services.AddScoped<IEventHandler<UserCreated>, UserCreatedHandler>();
+            return services.AddScoped<IEventHandler<UserCreated>, UserCreatedHandler>()
+                .AddScoped<IEventHandler<PortfolioCreated>, PortfolioCreatedHandler>();
         }
         public static IServiceCollection AddScoppedServices(this IServiceCollection services)
-            => services.AddScoped<IUserService, UserService>();
+            => services.AddScoped<IUserService, UserService>()
+                       .AddScoped<IPortfolioService, PortfolioService>();
     }
 }

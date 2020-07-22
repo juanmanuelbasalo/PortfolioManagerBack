@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Common.Auth;
+using Common.Commands;
 using Common.RabbitMq;
 using Common.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PortfolioSystem.Data_Access.SqlServer;
+using PortfolioSystem.Handlers;
 
 namespace PortfolioSystem
 {
@@ -34,6 +36,7 @@ namespace PortfolioSystem
             services.AddCustomDbContext<PortfolioSystemContext>(Configuration);
             services.AddScoped(typeof(ISqlServerRepository<>), typeof(SqlServerRepository<>));
             services.AddCustomAuthentication(Configuration);
+            services.AddScoped<ICommandHandler<CreatePortfolio>, CreatePortfolioHandler>();
             services.AddAutoMapper(typeof(Startup));
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Api.Domain.Models;
 using Api.Domain.Services;
 using Common.Commands;
 using IdentityServer4.Extensions;
@@ -30,13 +31,13 @@ namespace Api.Controllers
         [ProducesResponseType(403)]
         [ProducesResponseType(401)]
         [ProducesResponseType(200)]
-        public async Task<ActionResult> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
             var users = await userService.GetAllAsync();
             //test what this does after doing the migration
             var testClaims = User;
             var test = User.Identity.GetSubjectId();
-            return Ok(users);
+            return users.ToList();
         }
 
         [HttpPost("RegisterUser")]
