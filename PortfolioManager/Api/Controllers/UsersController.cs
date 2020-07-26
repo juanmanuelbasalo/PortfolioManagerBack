@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Api.Domain.Models;
 using Api.Domain.Services;
@@ -8,6 +9,7 @@ using Common.Commands;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RawRabbit;
 
@@ -35,8 +37,9 @@ namespace Api.Controllers
         {
             var users = await userService.GetAllAsync();
             //test what this does after doing the migration
-            var testClaims = User;
-            var test = User.Identity.GetSubjectId();
+            //var user = User.Claims;
+            var identity = (ClaimsIdentity)User.Identity;
+            var test = identity.Claims.FirstOrDefault(i => i.Type.Contains("nameidentifier")).Value;
             return users.ToList();
         }
 

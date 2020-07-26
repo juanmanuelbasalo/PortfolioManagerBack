@@ -16,6 +16,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PortfolioSystem.Data_Access.SqlServer;
 using PortfolioSystem.Handlers;
+using PortfolioSystem.Helpers;
 
 namespace PortfolioSystem
 {
@@ -34,6 +35,7 @@ namespace PortfolioSystem
             services.AddControllers();
             services.AddRabbitMq(Configuration);
             services.AddCustomDbContext<PortfolioSystemContext>(Configuration);
+            services.AddCustomScopedServices();
             services.AddScoped(typeof(ISqlServerRepository<>), typeof(SqlServerRepository<>));
             services.AddCustomAuthentication(Configuration);
             services.AddScoped<ICommandHandler<CreatePortfolio>, CreatePortfolioHandler>();

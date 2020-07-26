@@ -129,9 +129,9 @@ namespace Identity.Controllers
                     };
 
                     // issue authentication cookie with subject ID and username
-                    var isuser = new IdentityServerUser(loggedUser.Id.ToString())
+                    var isuser = new IdentityServerUser(loggedUser.UserName.ToString())
                     {
-                        DisplayName = loggedUser.Name,
+                        DisplayName = loggedUser.UserName,
                         AdditionalClaims = loggedUser.Claims,
                     };
 

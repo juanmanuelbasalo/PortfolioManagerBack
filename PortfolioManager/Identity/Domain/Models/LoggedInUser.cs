@@ -20,6 +20,7 @@ namespace Identity.Domain.Models
         /// User's email.
         /// </summary>
         public string Email { get; set; }
+        public string UserName { get; set; }
         /// <summary>
         /// User claims
         /// </summary>

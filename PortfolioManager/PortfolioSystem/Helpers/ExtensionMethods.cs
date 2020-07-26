@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
+using PortfolioSystem.Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +16,8 @@ namespace PortfolioSystem.Helpers
         {
             return mappingExpression.ForMember(selector, opt => opt.Ignore());
         }
+
+        public static IServiceCollection AddCustomScopedServices(this IServiceCollection services)
+            => services.AddScoped<IPortfolioService, PortfolioService>();
     }
 }

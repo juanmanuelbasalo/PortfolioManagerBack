@@ -39,12 +39,11 @@ namespace Identity.Domain.Services
                 Email = user.Email,
                 Id = user.Id,
                 Name = user.Name,
+                UserName = user.UserName,
                 Claims = new List<Claim>
                 {
-                    new Claim(JwtClaimTypes.Name, $"{user.Name} {user.LastName}"),
                     new Claim(JwtClaimTypes.Email, user.Email),
                     new Claim("role", user.Role),
-                    new Claim(JwtClaimTypes.PreferredUserName, user.UserName),
                 }
             };
 

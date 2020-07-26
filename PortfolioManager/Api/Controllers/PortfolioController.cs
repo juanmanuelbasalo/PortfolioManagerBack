@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Common.Commands;
 using Microsoft.AspNetCore.Authorization;
@@ -28,7 +29,9 @@ namespace Api.Controllers
         [ProducesResponseType(401)]
         public async Task<ActionResult> CreatePortfolio([FromBody] CreatePortfolio createPortfolio)
         {
-            createPortfolio.UserName = User.Identity.Name;
+            var identity = (ClaimsIdentity)User.Identity;
+            var userName = identity.Claims.FirstOrDefault(i => i.Type.Contains("nameidentifier")).Value;
+            createPortfolio.UserName = userName;
             await busClient.PublishAsync(createPortfolio);
             return Accepted($"CreatePortfolio/{createPortfolio.PortfolioId}");
         }
