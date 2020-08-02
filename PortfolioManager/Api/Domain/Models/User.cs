@@ -8,10 +8,11 @@ namespace Api.Domain.Models
 {
     public class User
     {
-        [Key]
+        public Guid UserId { get; set; }
         public string Email { get; set; }
         public string Name { get; set; }
         public string UserName { get; set; }
         public DateTimeOffset LastActive { get; set; }
+        public List<Portfolio> Portfolios { get; set; }
     }
 }

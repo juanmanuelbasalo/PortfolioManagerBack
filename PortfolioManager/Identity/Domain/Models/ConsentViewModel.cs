@@ -15,5 +15,6 @@ namespace Identity.Domain.Models
 
         public IEnumerable<ScopeViewModel> IdentityScopes { get; set; }
         public IEnumerable<ScopeViewModel> ResourceScopes { get; set; }
+        public IEnumerable<ScopeViewModel> ApiScopes { get; set; }
     }
 }

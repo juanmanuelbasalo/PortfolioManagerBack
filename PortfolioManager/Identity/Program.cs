@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using Common.Commands;
 using Common.Services;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace Identity
 {
@@ -24,7 +26,7 @@ namespace Identity
                 .UseRabbitMq()
                 .SubscribeToCommand<CreateUser>()
                 .Build()
-                .Run();         
+                .Run();
         }
 
     }

@@ -29,9 +29,8 @@ namespace Api.Controllers
         [ProducesResponseType(401)]
         public async Task<ActionResult> CreatePortfolio([FromBody] CreatePortfolio createPortfolio)
         {
-            var identity = (ClaimsIdentity)User.Identity;
-            var userName = identity.Claims.FirstOrDefault(i => i.Type.Contains("nameidentifier")).Value;
-            createPortfolio.UserName = userName;
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); //retuns the userId
+            createPortfolio.UserId = Guid.Parse(userId);
             await busClient.PublishAsync(createPortfolio);
             return Accepted($"CreatePortfolio/{createPortfolio.PortfolioId}");
         }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Api.Data_Access.Sql_Context;
 using Api.Helpers;
@@ -38,6 +39,10 @@ namespace Api
             services.AddEventHandlers();
             services.AddScoppedServices();
             services.AddAutoMapper(typeof(Startup));
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ApiScope", policy => policy.RequireClaim("scope", "full"));
+            });
             services.AddCustomAuthentication(Configuration);
         }
 

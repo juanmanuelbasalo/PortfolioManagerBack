@@ -2,6 +2,7 @@
 using Common.Commands;
 using Identity.Data_Access.Entities;
 using Identity.Domain.Models;
+using Identity.HelperMethods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,8 @@ namespace Identity.Map_Profile
         public MappingProfile()
         {
             CreateMap<CreateUser, UserRegister>().ReverseMap();
-            CreateMap<UserRegister, User>().ReverseMap();
-            CreateMap<User, UserRegistered>().ReverseMap();
             CreateMap<LoginInputModel, AuthenticateUser>().ReverseMap();
+            CreateMap<UserRegister, UserRegistered>();
         }
     }
 }

@@ -12,6 +12,6 @@ namespace Common.Events
         /// <summary>
         /// Readonly property to get the user id.
         /// </summary>
-        string UserName { get; }
+        Guid UserId { get; }
     }
 }

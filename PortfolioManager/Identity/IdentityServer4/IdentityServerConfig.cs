@@ -1,4 +1,6 @@
 ﻿using Common.Auth;
+using Identity.Data_Access.Entities;
+using Identity.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +19,7 @@ namespace Identity.IdentityServer4
 {
     public static class IdentityServerConfig
     {
-        public static IIdentityServerBuilder AddCustomIdentityServer(this IServiceCollection services, 
+        public static IIdentityServerBuilder AddCustomIdentityServer(this IServiceCollection services,
             IConfiguration configuration)
         {
             var seccion = configuration.GetSection("IdentityServer");
@@ -26,10 +28,15 @@ namespace Identity.IdentityServer4
 
             var signingCredentials = CreateSigningCredentials();
 
-            return services.AddIdentityServer()
-                .AddInMemoryIdentityResources(Config.Ids)
-                .AddInMemoryApiResources(Config.Apis)
-                .AddInMemoryClients(Config.Clients)
+            return services.AddIdentityServer(options =>
+            {
+                options.Events.RaiseErrorEvents = true;
+                options.Events.RaiseInformationEvents = true;
+                options.Events.RaiseFailureEvents = true;
+                options.Events.RaiseSuccessEvents = true;
+                options.UserInteraction.LoginUrl = "/Account/Login";
+                options.UserInteraction.LogoutUrl = "/Account/Logout";
+            })
             //.AddConfigurationStore(options =>
             //{
             //    options.ConfigureDbContext = b => b.UseSqlServer(serverOptions.ConnectionString);
@@ -38,6 +45,11 @@ namespace Identity.IdentityServer4
             //{
             //    options.ConfigureDbContext = b => b.UseSqlServer(serverOptions.ConnectionString);
             //})
+            .AddInMemoryIdentityResources(Config.Ids)
+            .AddInMemoryApiResources(Config.Apis)
+            .AddInMemoryClients(Config.Clients)
+            .AddInMemoryApiScopes(Config.ApiScopes)
+            .AddAspNetIdentity<ApplicationUser>()
             .AddSigningCredential(signingCredentials);
         }
 

@@ -15,6 +15,7 @@ using RawRabbit;
 
 namespace Api.Controllers
 {
+    [Authorize(Policy = "ApiScope")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -29,7 +30,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("GetAllUsers")]
-        [Authorize(Roles = "standard")]
+        [Authorize(Roles = "Standard")]
         [ProducesResponseType(403)]
         [ProducesResponseType(401)]
         [ProducesResponseType(200)]
@@ -38,8 +39,7 @@ namespace Api.Controllers
             var users = await userService.GetAllAsync();
             //test what this does after doing the migration
             //var user = User.Claims;
-            var identity = (ClaimsIdentity)User.Identity;
-            var test = identity.Claims.FirstOrDefault(i => i.Type.Contains("nameidentifier")).Value;
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); //retuns the userId
             return users.ToList();
         }
 

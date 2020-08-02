@@ -23,7 +23,7 @@ namespace Identity.Controllers
         [HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] AuthenticateUser authenticateUser)
         {
-            await userService.LoginAsync(authenticateUser);
+            await userService.LoginUserAsync(authenticateUser);
             return null;
         }
     }

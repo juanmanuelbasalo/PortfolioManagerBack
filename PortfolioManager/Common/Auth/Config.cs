@@ -9,12 +9,26 @@ namespace Common.Auth
 {
     public static class Config
     {
+        public static IEnumerable<ApiScope> ApiScopes =>
+            new List<ApiScope>
+            {
+                new ApiScope(name: "full", displayName: "Full access to the api"),
+                new ApiScope(name: "roles", displayName: "Api roles")
+            };
+
         public static IEnumerable<ApiResource> Apis =>
             new List<ApiResource>
             {
-                new ApiResource("EntryApi", "My API"),
+                new ApiResource("EntryApi", "My API")
+                {
+                    Scopes = { "full" }
+                },
                 new ApiResource("roles", "My roles", new[] { "role" })
+                {
+                    Scopes = { "roles" }
+                }
             };
+
 
         public static IEnumerable<Client> Clients =>
             new List<Client>
@@ -83,7 +97,7 @@ namespace Common.Auth
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Email,
-                        "EntryApi",
+                        "full",
                         "roles"
                     },
                 }

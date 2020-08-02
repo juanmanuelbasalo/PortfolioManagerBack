@@ -35,16 +35,16 @@ namespace Identity.HelperMethods
         }
     }
 
-    public class IdentityContextDesignTimeFactory : DesignTimeDbContextFactoryBase<IdentityContext>
+    public class IdentityContextDesignTimeFactory : DesignTimeDbContextFactoryBase<IdentityDbContext>
     {
         public IdentityContextDesignTimeFactory() : 
             base("DefaultConnection", typeof(Startup).GetTypeInfo().Assembly.GetName().Name)
         {
 
         }
-        protected override IdentityContext CreateNewInstance(DbContextOptions<IdentityContext> options)
+        protected override IdentityDbContext CreateNewInstance(DbContextOptions<IdentityDbContext> options)
         {
-            return new IdentityContext(options);
+            return new IdentityDbContext(options);
         }
     }
 }

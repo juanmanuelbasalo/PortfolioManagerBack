@@ -1,30 +1,24 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using Common.Auth;
 using Common.Commands;
 using Common.RabbitMq;
 using Common.Repositories;
+using Identity.Data.Seed;
 using Identity.Data_Access.SqlServer;
 using Identity.Handlers;
 using Identity.HelperMethods;
 using Identity.IdentityServer4;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
-using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Identity
 {
@@ -42,12 +36,17 @@ namespace Identity
         {
             services.AddControllersWithViews();
             services.AddLogging();
-            services.AddCustomDbContext<IdentityContext>(Configuration);
-            services.AddScoped(typeof(ISqlServerRepository<>),typeof(SqlServerRepository<>));
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
+            services.AddDbContext<IdentityDbContext>(options =>
+                options.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationsAssembly))
+            );
+            services.AddCustomCoreIdentity();
+            services.AddCustomScopedServices();
             services.AddScoped<ICommandHandler<CreateUser>, CreateUserHandler>();
             services.AddRabbitMq(Configuration);
             services.AddAutoMapper(typeof(Startup));
-            services.AddCustomScopedServices();
             services.AddCustomIdentityServer(Configuration);
             services.AddCors(options =>
             {
@@ -71,23 +70,26 @@ namespace Identity
 
             //only to initialize the identitiserverdb
             //InitializeDatabase(app);
+            //Users.EnsureSeedData(app);
+            //Roles.CreateRoles(service);
 
             app.UseStaticFiles();
             app.UseRouting();
 
             app.UseCors("default");
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             mapper.ConfigurationProvider.AssertConfigurationIsValid();
-
+            
             app.UseIdentityServer();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
             });
-   
+
         }
 
         private void InitializeDatabase(IApplicationBuilder app)

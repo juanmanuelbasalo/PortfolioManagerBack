@@ -14,6 +14,6 @@ namespace Common.Commands
         /// <para>Property that contains the user Id.</para>
         /// </summary>
         /// <returns>Returns the current User Id.</returns>
-        string UserName { get; set; }
+        Guid UserId { get; set; }
     }
 }

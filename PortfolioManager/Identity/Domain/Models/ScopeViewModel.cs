@@ -12,5 +12,6 @@ namespace Identity.Domain.Models
         public bool Emphasize { get; set; }
         public bool Required { get; set; }
         public bool Checked { get; set; }
+        public string Value { get; set; }
     }
 }

@@ -16,5 +16,6 @@ namespace Common.Commands
         /// <summary> Represents the user´s password. </summary>
         /// <value> gets/sets user password to check if its the user's password. </value>
         public string Password { get; set; }
+        public bool RememberLogin { get; set; }
     }
 }

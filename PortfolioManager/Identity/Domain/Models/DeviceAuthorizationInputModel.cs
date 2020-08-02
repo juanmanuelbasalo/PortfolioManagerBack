@@ -7,5 +7,6 @@ namespace Identity.Domain.Models
     public class DeviceAuthorizationInputModel : ConsentInputModel
     {
         public string UserCode { get; set; }
+        public string Description { get; set; }
     }
 }

@@ -6,14 +6,14 @@ namespace Common.Events
 {
     public class CreatePortfolioRejected : IAuthenticatedEvent, IRejectedEvent
     {
-        public string UserName { get; }
+        public Guid UserId { get; }
         public string Name { get; }
         public string Reason { get; }
         public string Code { get; }
 
-        public CreatePortfolioRejected(string userName, string name, string reason, string code)
+        public CreatePortfolioRejected(Guid UserId, string name, string reason, string code)
         {
-            UserName = userName;
+            UserId = UserId;
             Name = name;
             Reason = reason;
             Code = code;

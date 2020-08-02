@@ -12,6 +12,7 @@ namespace PortfolioSystem.Domain.Models
         public decimal LiquidationValue { get; set; }
         public decimal ProfitAndLoss { get; set; }
         public string Name { get; set; }
+        public Guid UserId { get; set; }
         public string UserName { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
     }

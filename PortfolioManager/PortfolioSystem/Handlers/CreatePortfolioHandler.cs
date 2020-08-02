@@ -29,17 +29,17 @@ namespace PortfolioSystem.Handlers
 
                 if (portfolioCreated == null)
                 {
-                    await busClient.PublishAsync(new CreatePortfolioRejected(command.UserName, command.Name, "Problem resolving the portfolio.", "400"));
+                    await busClient.PublishAsync(new CreatePortfolioRejected(command.UserId, command.Name, "Problem resolving the portfolio.", "400"));
                 }
                 else
                 {
-                    await busClient.PublishAsync(new PortfolioCreated(portfolioCreated.UserName, portfolioCreated.PortfolioId,
+                    await busClient.PublishAsync(new PortfolioCreated(portfolioCreated.UserId, portfolioCreated.PortfolioId,
                         portfolioCreated.LiquidationValue, portfolioCreated.ProfitAndLoss, portfolioCreated.Name, portfolioCreated.CreatedAt));
                 }
             }
             catch (CustomException ex)
             {
-                await busClient.PublishAsync(new CreatePortfolioRejected(command.UserName, command.Name, "Problem saving portfolio.", ex.Code));
+                await busClient.PublishAsync(new CreatePortfolioRejected(command.UserId, command.Name, "Problem saving portfolio.", ex.Code));
 
             }
         }

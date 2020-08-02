@@ -1,7 +1,3 @@
-// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
-
-
 using AutoMapper;
 using Common.Commands;
 using Identity.Domain.Models;
@@ -14,7 +10,6 @@ using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
-using IdentityServer4.Test;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -41,8 +36,8 @@ namespace Identity.Controllers
         private readonly IEventService _events;
         private readonly IMapper mapper;
 
-        public AccountController(IUserService userService,IIdentityServerInteractionService interaction,
-            IClientStore clientStore,IAuthenticationSchemeProvider schemeProvider,IEventService events, IMapper mapper)
+        public AccountController(IUserService userService, IIdentityServerInteractionService interaction,
+            IClientStore clientStore, IAuthenticationSchemeProvider schemeProvider, IEventService events, IMapper mapper)
         {
             this.userService = userService;
             _interaction = interaction;
@@ -88,12 +83,12 @@ namespace Identity.Controllers
                     // if the user cancels, send a result back into IdentityServer as if they 
                     // denied the consent (even if this client does not require consent).
                     // this will send back an access denied OIDC error response to the client.
-                    await _interaction.GrantConsentAsync(context, ConsentResponse.Denied);
+                    await _interaction.DenyAuthorizationAsync(context, AuthorizationError.AccessDenied);
 
                     // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
-                    if (await _clientStore.IsPkceClientAsync(context.ClientId))
+                    if (context.IsNativeClient())
                     {
-                        // if the client is PKCE then we assume it's native, so this change in how to
+                        // The client is native, so this change in how to
                         // return the response is for better UX for the end user.
                         return this.LoadingPage("Redirect", model.ReturnUrl);
                     }
@@ -110,36 +105,16 @@ namespace Identity.Controllers
             if (ModelState.IsValid)
             {
                 var authUser = mapper.Map<AuthenticateUser>(model);
-                var loggedUser = await userService.LoginAsync(authUser);
+                //var loggedUser = await userService.LoginAsync(authUser);
+                var loggedUser = await userService.LoginUserAsync(authUser);
                 // validate username/password against in-memory store
                 if (loggedUser != null)
                 {
-                    await _events.RaiseAsync(new UserLoginSuccessEvent(loggedUser.Email, loggedUser.Id.ToString(), loggedUser.Name, clientId: context?.ClientId));
-
-                    // only set explicit expiration here if user chooses "remember me". 
-                    // otherwise we rely upon expiration configured in cookie middleware.
-                    AuthenticationProperties props = null;
-                    if (AccountOptions.AllowRememberLogin && model.RememberLogin)
-                    {
-                        props = new AuthenticationProperties
-                        {
-                            IsPersistent = true,
-                            ExpiresUtc = DateTimeOffset.UtcNow.Add(AccountOptions.RememberMeLoginDuration)
-                        };
-                    };
-
-                    // issue authentication cookie with subject ID and username
-                    var isuser = new IdentityServerUser(loggedUser.UserName.ToString())
-                    {
-                        DisplayName = loggedUser.UserName,
-                        AdditionalClaims = loggedUser.Claims,
-                    };
-
-                    await HttpContext.SignInAsync(isuser, props);
+                    await _events.RaiseAsync(new UserLoginSuccessEvent(loggedUser.UserName, loggedUser.Id, loggedUser.UserName));
 
                     if (context != null)
                     {
-                        if (await _clientStore.IsPkceClientAsync(context.ClientId))
+                        if (await _clientStore.IsPkceClientAsync(context.Client.ClientId))
                         {
                             // if the client is PKCE then we assume it's native, so this change in how to
                             // return the response is for better UX for the end user.
@@ -166,7 +141,7 @@ namespace Identity.Controllers
                     }
                 }
 
-                await _events.RaiseAsync(new UserLoginFailureEvent(model.Email, "invalid credentials", clientId:context?.ClientId));
+                await _events.RaiseAsync(new UserLoginFailureEvent(model.Email, "invalid credentials", clientId: context?.Client.ClientId));
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
             }
 
@@ -175,7 +150,7 @@ namespace Identity.Controllers
             return View(vm);
         }
 
-        
+
         /// <summary>
         /// Show logout page
         /// </summary>
@@ -208,7 +183,8 @@ namespace Identity.Controllers
             if (User?.Identity.IsAuthenticated == true)
             {
                 // delete local authentication cookie
-                await HttpContext.SignOutAsync();
+                //await HttpContext.SignOutAsync();
+                await userService.LogoutAsync();
 
                 // raise the logout event
                 await _events.RaiseAsync(new UserLogoutSuccessEvent(User.GetSubjectId(), User.GetDisplayName()));
@@ -275,9 +251,9 @@ namespace Identity.Controllers
                 }).ToList();
 
             var allowLocal = true;
-            if (context?.ClientId != null)
+            if (context?.Client.ClientId != null)
             {
-                var client = await _clientStore.FindEnabledClientByIdAsync(context.ClientId);
+                var client = await _clientStore.FindEnabledClientByIdAsync(context.Client.ClientId);
                 if (client != null)
                 {
                     allowLocal = client.EnableLocalLogin;

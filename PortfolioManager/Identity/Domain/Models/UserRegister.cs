@@ -8,7 +8,6 @@ namespace Identity.Domain.Models
 {
     public class UserRegister
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
         /// <summary>
         /// Name of the user.
         /// </summary>
@@ -22,11 +21,10 @@ namespace Identity.Domain.Models
         /// User's email.
         /// </summary>
         public string Email { get; set; }
-        public string Role { get; set; }
         /// <summary>
         /// Encrypted user's password.
         /// </summary>
-        public string Password { get => password; set => password = SecurePasswordHasher.Hash(value); }
+        public string Password { get; set; }
         /// <summary>
         /// Date and time of user's creation.
         /// </summary>
@@ -36,7 +34,5 @@ namespace Identity.Domain.Models
         /// </summary>
         public string CreatedBy { get; set; }
         public DateTimeOffset LastActive { get; set; }
-
-        private string password;
     }
 }
