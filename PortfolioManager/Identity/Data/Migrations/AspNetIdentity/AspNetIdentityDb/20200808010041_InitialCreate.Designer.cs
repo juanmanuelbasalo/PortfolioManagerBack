@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Identity.Data.Migrations.AspNetIdentity.AspNetIdentityDb
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20200801050622_CustomProperties")]
-    partial class CustomProperties
+    [Migration("20200808010041_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace Identity.Data.Migrations.AspNetIdentity.AspNetIdentityDb
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Identity.Domain.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Identity.Data_Access.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -49,17 +49,11 @@ namespace Identity.Data.Migrations.AspNetIdentity.AspNetIdentityDb
                     b.Property<DateTimeOffset>("LastActive")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(256)")
@@ -243,7 +237,7 @@ namespace Identity.Data.Migrations.AspNetIdentity.AspNetIdentityDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Identity.Domain.Models.ApplicationUser", null)
+                    b.HasOne("Identity.Data_Access.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -252,7 +246,7 @@ namespace Identity.Data.Migrations.AspNetIdentity.AspNetIdentityDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Identity.Domain.Models.ApplicationUser", null)
+                    b.HasOne("Identity.Data_Access.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -267,7 +261,7 @@ namespace Identity.Data.Migrations.AspNetIdentity.AspNetIdentityDb
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Identity.Domain.Models.ApplicationUser", null)
+                    b.HasOne("Identity.Data_Access.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -276,7 +270,7 @@ namespace Identity.Data.Migrations.AspNetIdentity.AspNetIdentityDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Identity.Domain.Models.ApplicationUser", null)
+                    b.HasOne("Identity.Data_Access.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

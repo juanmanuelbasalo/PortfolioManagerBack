@@ -13,7 +13,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = "ApiScope")]
     public class PortfolioController : ControllerBase
     {
         private readonly IBusClient busClient;
@@ -24,15 +24,31 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(200)]
+        [Authorize(Roles = "Standard")]
+        [ProducesResponseType(202)]
         [ProducesResponseType(500)]
         [ProducesResponseType(401)]
         public async Task<ActionResult> CreatePortfolio([FromBody] CreatePortfolio createPortfolio)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); //retuns the userId
             createPortfolio.UserId = Guid.Parse(userId);
+            createPortfolio.PortfolioId = Guid.NewGuid();
             await busClient.PublishAsync(createPortfolio);
             return Accepted($"CreatePortfolio/{createPortfolio.PortfolioId}");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Standard")]
+        [ProducesResponseType(202)]
+        [ProducesResponseType(500)]
+        [ProducesResponseType(401)]
+        public async Task<ActionResult> BuySecurities([FromBody] BuySecurity security)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); //retuns the userId
+            security.UserId = Guid.Parse(userId);
+            security.SecurityId = Guid.NewGuid();
+            await busClient.PublishAsync(security);
+            return Accepted($"BuySecurities/{security.SecurityId}");
         }
     }
 }

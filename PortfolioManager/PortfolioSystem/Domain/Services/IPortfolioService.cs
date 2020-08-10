@@ -10,6 +10,6 @@ namespace PortfolioSystem.Domain.Services
     public interface IPortfolioService
     {
         Task<PortfolioCreated> CreatePortfolioAsync(CreatePortfolio createPortfolio);
-        Task BuySecurity();
+        Task BuySecurityAsync(BuySecurity security);
     }
 }

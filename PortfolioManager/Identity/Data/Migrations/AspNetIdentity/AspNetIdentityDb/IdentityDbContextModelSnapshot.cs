@@ -19,7 +19,7 @@ namespace Identity.Data.Migrations.AspNetIdentity.AspNetIdentityDb
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Identity.Domain.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Identity.Data_Access.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -235,7 +235,7 @@ namespace Identity.Data.Migrations.AspNetIdentity.AspNetIdentityDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Identity.Domain.Models.ApplicationUser", null)
+                    b.HasOne("Identity.Data_Access.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -244,7 +244,7 @@ namespace Identity.Data.Migrations.AspNetIdentity.AspNetIdentityDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Identity.Domain.Models.ApplicationUser", null)
+                    b.HasOne("Identity.Data_Access.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -259,7 +259,7 @@ namespace Identity.Data.Migrations.AspNetIdentity.AspNetIdentityDb
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Identity.Domain.Models.ApplicationUser", null)
+                    b.HasOne("Identity.Data_Access.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -268,7 +268,7 @@ namespace Identity.Data.Migrations.AspNetIdentity.AspNetIdentityDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Identity.Domain.Models.ApplicationUser", null)
+                    b.HasOne("Identity.Data_Access.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

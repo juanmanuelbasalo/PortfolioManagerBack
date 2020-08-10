@@ -38,7 +38,8 @@ namespace PortfolioSystem
             services.AddCustomScopedServices();
             services.AddScoped(typeof(ISqlServerRepository<>), typeof(SqlServerRepository<>));
             services.AddCustomAuthentication(Configuration);
-            services.AddScoped<ICommandHandler<CreatePortfolio>, CreatePortfolioHandler>();
+            services.AddScoped<ICommandHandler<CreatePortfolio>, CreatePortfolioHandler>()
+                    .AddScoped<ICommandHandler<BuySecurity>, BuySecuritiesHandler>();
             services.AddAutoMapper(typeof(Startup));
         }
 

@@ -32,5 +32,7 @@ namespace Api.Data_Access.Sql_Context
         /// Represents the Users table from the database as a DbSet.
         /// </summary>
         public DbSet<User> Users { get; set; }
+        public DbSet<Portfolio> Portfolios { get; set; }
+        public DbSet<Stock> Stocks { get; set; }
     }
 }

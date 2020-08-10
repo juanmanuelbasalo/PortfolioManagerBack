@@ -18,6 +18,7 @@ namespace PortfolioSystem
             await ServiceHost.CreateHostBuilder<Startup>(args)
                 .UseRabbitMq()
                 .SubscribeToCommand<CreatePortfolio>()
+                .SubscribeToCommand<BuySecurity>()
                 .Build()
                 .Run();
         }

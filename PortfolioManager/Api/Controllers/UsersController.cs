@@ -15,9 +15,9 @@ using RawRabbit;
 
 namespace Api.Controllers
 {
-    [Authorize(Policy = "ApiScope")]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = "ApiScope")]
     public class UsersController : ControllerBase
     {
         private readonly IBusClient busClient;

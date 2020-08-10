@@ -14,5 +14,6 @@ namespace Api.Domain.Models
         public DateTimeOffset CreatedAt { get; set; }
         public Guid UserId { get; set; }
         public User User { get; set; }
+        public ICollection<Security> Securities { get; set; }
     }
 }

@@ -49,7 +49,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Data\Migrations\AspNetIdentity\AspNetIdentityDb\" />
     <Folder Include="Data\Migrations\IdentityServer\" />
+    <Folder Include="Data\Migrations\IdentityServer\ConfigurationDb\" />
+    <Folder Include="Data\Migrations\IdentityServer\PersistedGrantDb\" />
   </ItemGroup>
 
 
